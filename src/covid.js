@@ -10,7 +10,7 @@ export default{
           labels:[],
           datasets: [
             {
-              label: 'PSI Readings-Singapore',
+              label: 'Covid Status',
                data:[],
               //backgroundColor:['aqua','lightgreen','red','orange'],
               borderWidth:0.5,
@@ -36,15 +36,20 @@ export default{
     methods:{
     
     fetchData : function(){
-        axios.get('https://api.data.gov.sg/v1/environment/psi').then(response=>{
-        this.results=response.data.items[0].readings.psi_twenty_four_hourly
-        console.log(response.data)
+        axios.get('http://covid19.soficoop.com/country/us').then(response=>{
+      
+        this.results = response.data.snapshots
         console.log(this.results)
+        // console.log(response.data)
+        // console.log(response.data.items)
+  
+        // console.log(this.results)
         for(let key in this.results){
-            this.chartdata.datasets[0].data.push(this.results[key])
+            this.chartdata.datasets[0].data.push(this.results[key].cases)
             this.chartdata.labels.push(key+'')
+            //this.chartdata.labels.push(this.results[key].timestamp+'')
             
-        }
+        } 
         this.renderChart(this.chartdata,this.options)
             
     })
